@@ -17,13 +17,12 @@ def weather():
     cursor.execute('SELECT * FROM search_queries WHERE name = ?;', (city_name,))
 
     if cursor.fetchone() is None:
+        cursor.execute('INSERT INTO search_queries (id, name, count) VALUES (?, 1);', (city_name,))
+        print("inserted")
+    else:
         cursor.execute('UPDATE search_queries SET count = count + 1 WHERE name = ?;', (city_name,))
         print("updated")
-    else:
-        cursor.execute('INSERT INTO search_queries (id, name, count) VALUES (4, ?, 1);', (city_name,))
-        print("inserted")
     db.commit()
-    print("Запись успешно обновлена")
     cursor.close()
     cursor = db.cursor()
     url = 'http://api.weatherapi.com/v1/current.json?key=5edf2f4998ab4944bf8135340222612&q=' + city_name
