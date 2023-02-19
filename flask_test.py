@@ -22,7 +22,7 @@ class Cities(db.Model):
 def weather():
     name = request.form['city_name']
 
-    query = db.session.execute(f"""SELECT EXISTS (SELECT * FROM cities WHERE name = '{name}');""")
+    query = db.session.execute(f"""SELECT * FROM cities WHERE name = '{name}';""")
     result = query.fetchone()
     print(result)
     if result is None:
